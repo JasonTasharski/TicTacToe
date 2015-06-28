@@ -1,0 +1,20 @@
+body {
+	background: black;
+}
+h1 {
+	text-align: center;
+	font-family: 'Droid Serif', serif;
+	background: white;
+}
+.centerRow {
+ 	background: red;
+}
+.row {
+ 	text-align: center;
+	}
+.bottomRow {
+	background: blue;
+}
+#dialogue {
+	color: white;
+}
