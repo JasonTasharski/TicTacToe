@@ -1,30 +1,39 @@
-window.onload = function(){
 var thisMove = 0;
 var ties = 0;
 var playerMove = 0;
+var gameOver = false;
+var winArray = ['colA','colB','colC','rowA','rowB','rowC','diA','diB'];
 var wins = {'colA':0,'colB':0,'colC':0,'rowA':0,'rowB':0,'rowC':0,'diA':0,'diB':0};
+window.onload = function(){
 var playOn = function(){
 	thisMove++;
 	playerMove++;
 	checkWins();
 }
 var cliBut = function() {
-	if (event.target.classList.contains("clicked")){
-		document.querySelector("#dialogue").innerText = "That square has already been filled. Try a different one, cheater.";
-	} else {
-		if ((playerMove % 2) == 0) {
-			event.target.innerText = "X";
+	if (gameOver != true){
+		if (event.target.classList.contains("clicked")){
+			document.querySelector("#dialogue").innerText = "That square has already been filled. Try a different one, cheater.";
 		} else {
-			event.target.innerText = "O";
+			if ((playerMove % 2) == 0) {
+				event.target.innerText = "X";
+				for (i=0; i < event.target.classList.length; i++){
+					wins[event.target.classList[i]]++;
+				}
+			} else {
+				event.target.innerText = "O";
+				for (i=0; i < event.target.classList.length; i++){
+					wins[event.target.classList[i]]--;
+				}
+			}
+			event.target.classList.add("clicked");
+			playOn();
 		}
-		event.target.classList.add("clicked");
-		wins[event.target.classList]
-		playOn();
 	}
 }
 var checkWins = function() {
 	if (thisMove === 9) {
-		if (ties === 3) {
+		if (ties === 2) {
 			document.querySelector("#dialogue").innerText = "Strange game. The only winning move is not to play.";
 			newGame();
 		} else {
@@ -33,12 +42,12 @@ var checkWins = function() {
 		}
 	} else if (thisMove >= 5) {
 		for (i = 0; i < 7; i++) {
-			if (wins[i] === 3){
+			if (wins[winArray[i]] === 3){
 				document.querySelector("#dialogue").innerText = "X won!";
-				newGame();
-			} else if (wins[i] === -3) {
+				gameOver = true;
+			} else if (wins[winArray[i]] === -3) {
 				document.querySelector("#dialogue").innerText = "O won!";
-				newGame();
+				gameOver = true;
 			} 
 		}	
 		checkPlayer();
@@ -47,10 +56,12 @@ var checkWins = function() {
 	}
 }
 var checkPlayer = function() {
-	if ((playerMove % 2) == 1) {
-		document.querySelector("#dialogue").innerText = "Next move: Player Two: O";
-	} else {
-		document.querySelector("#dialogue").innerText = "Next move: Player One: X";
+	if (gameOver != true){
+		if ((playerMove % 2) == 1) {
+			document.querySelector("#dialogue").innerText = "Next move: Player Two: O";
+		} else {
+			document.querySelector("#dialogue").innerText = "Next move: Player One: X";
+		}
 	}
 }
 var freshBoard = function(){
@@ -59,7 +70,8 @@ var freshBoard = function(){
 		document.querySelectorAll(".square")[i].classList.remove("clicked");
 	}
 	for (i = 0; i < 7; i++) {
-	wins[i] = 0;
+		wins[i] = 0;
+	}
 	thisMove = 0;
 	ties++;
 }
