@@ -41,7 +41,7 @@ var checkWins = function() {
 			freshBoard();
 		}
 	} else if (thisMove >= 5) {
-		for (i = 0; i < 7; i++) {
+		for (i = 0; i < winArray.length; i++) {
 			if (wins[winArray[i]] === 3){
 				document.querySelector("#dialogue").innerText = "X won!";
 				gameOver = true;
@@ -69,8 +69,8 @@ var freshBoard = function(){
 		document.querySelectorAll(".square")[i].innerText = "_";
 		document.querySelectorAll(".square")[i].classList.remove("clicked");
 	}
-	for (i = 0; i < 7; i++) {
-		wins[i] = 0;
+	for (i = 0; i < winArray.length; i++) { // TESTING THIS
+		wins[winArray[i]] = 0;
 	}
 	thisMove = 0;
 	ties++;
